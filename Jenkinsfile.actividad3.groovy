@@ -9,6 +9,7 @@ pipeline {
                 sh 'make build'
             }
         }
+        
         stage('API tests') {
             steps {
                 sh 'make test-api'
@@ -23,8 +24,12 @@ pipeline {
         }
     }
     post {
+        failure {
+            echo 'El pipeline ha fallado. Aqui deberia enviar correo.'
+        }
         always {
             junit 'results/*_result.xml'
+            cleanWs()
         }
     }
 }
