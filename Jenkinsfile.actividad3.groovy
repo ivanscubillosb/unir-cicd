@@ -3,6 +3,12 @@ pipeline {
         label 'docker'
     }
     stages {
+        stage('Cleanup') {
+            steps {
+                echo 'Limpiando archivos de resultados anteriores...'
+                cleanWs() // Limpia todo el espacio de trabajo
+            }
+        }
         stage('Build') {
             steps {
                 echo 'Building stage!'
@@ -29,7 +35,6 @@ pipeline {
         }
         always {
             junit 'results/*_result.xml'
-            cleanWs()
         }
     }
 }
